@@ -1,0 +1,16 @@
+{% extends "guest/base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3>{{article.title}}</h3>
+                <p class="post-date">Опубликовано {{article.date|date:"d/m/Y в H:i:s"}} | Cordially yours, myTime team</p>
+                {%if article.image %}
+                <a href="{{post.id}}"><img class="post-img" src="{{article.image.url}}" ></a>
+                {% endif %}
+                <p class="post-descr">{{article.post |safe|linebreaks}}</p>
+                <hr>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
