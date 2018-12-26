@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path('', views.home, name = 'guest-home'),
     path('blog/', include('blog.urls')),
-    path('support/', views.support, name = 'guest-support')
+    path('support/', include(('feedback.urls')))
 ]
 
 if settings.DEBUG:

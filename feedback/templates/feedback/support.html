@@ -1,0 +1,28 @@
+{% extends "guest/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4 form-appearance">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h2 class="panel-title feedback-title">Обратная связь</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="well well-lg">
+                        <h3></h3>
+                        <form action="{% url 'guest-support' %}" method="post">
+                            {% csrf_token %}
+                            {{ form | crispy }}
+                             <div class="row justify-content-center">
+                                    <input type="submit" class="btn btn-success" value="Отправить сообщение"/>
+                             </div>
+                        </form>
+                    </div>
+                    <p>Поля отмеченные * обязательны для заполнения.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
