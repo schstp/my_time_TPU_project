@@ -11,12 +11,14 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'guest.apps.GuestConfig',
     'blog.apps.BlogConfig',
+    'feedback.apps.FeedbackConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'accounts.apps.AccountsConfig',
 ]
 
@@ -104,4 +106,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_HOST_USER = 'mytimeteam@mail.ru'
+EMAIL_HOST_PASSWORD = 'zxcvb/.,mn'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'mytimeteam@mail.ru'
 LOGIN_REDIRECT_URL = '/'

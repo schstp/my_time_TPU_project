@@ -7,13 +7,6 @@ def home(request):
     }
     return render(request, 'guest/home.html', context)
 
-def support(request):
-
-    context = {
-        'title': 'Support',
-    }
-    return render(request, 'guest/support.html', context)
-
 def login(request):
 
     return render(request, 'registration/login.html')

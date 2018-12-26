@@ -1,16 +1,92 @@
 {% extends "guest/base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <h3>{{article.title}}</h3>
-                <p class="post-date">Опубликовано {{article.date|date:"d/m/Y в H:i:s"}} | Cordially yours, myTime team</p>
-                {%if article.image %}
-                <a href="{{post.id}}"><img class="post-img" src="{{article.image.url}}" ></a>
+                <p class="post-date">Опубликовано {{article.date|date:"d/m/Y"}} |
+                    {% if comments.count > 0 %}
+                        <a href="#comlink">{{comments.count}} Comments</a>
+                    {% endif %}
+                </p>
+                {%if article.mainImage %}
+                <img class="post-img" src="{{article.mainImage.url}}">
                 {% endif %}
                 <p class="post-descr">{{article.post |safe|linebreaks}}</p>
+
+                <a id="comlink"></a>
+                <h4>Комментарии</h4>
                 <hr>
+                <div class="col-sm-7 col-sm-offset-2">
+                    <form action="" method="POST">
+                        <input type="hidden" id="article" data-id="{{article.id}}">
+                        {% csrf_token %}
+                        {{form | crispy}}
+                        <input type="submit" value="Добавить комментарий" id="add_comment" class="btn btn-outline-success">
+                    </form>
+                </div>
+
+                <div class="col-sm-6 new_comment"></div>
+
+                {% for comment in comments %}
+                <div class="col-sm-6">
+                <hr>
+                <small class="comment-appearance">{{comment.author.username}}, {{comment.timestemp|date:"d/m/Y"}}</small>
+                <p>{{comment.content}}</p>
+                <hr>
+                </div>
+                {% endfor %}
             </div>
         </div>
+
     </div>
 {% endblock content %}
+{% block jquery %}
+<script>
+    $(document).ready(function(){
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+
+        $('#add_comment').on('click', function(e){
+            e.preventDefault()
+            var article_id = $('#article').attr('data-id')
+            var comment = $('#id_comment').val()
+
+            data = {
+                article_id: article_id,
+                comment: comment,
+                csrfmiddlewaretoken: csrftoken,
+            }
+
+            $.ajax({
+                type:'POST',
+                url: '{% url 'add_comment' %}',
+                dataType: 'json',
+                data: data,
+                success:function(data){
+                    $.each(data, function(field){
+                        $('.new_comment').prepend('<hr><small class="comment-appearance">' + data[field]['author'] +
+                            ', ' + data[field]['timestemp'] + '</small><p>' +
+                                data[field]['comment'] + '</p><hr>')
+                                $('#id_comment').val('')
+                            })
+                        }
+                    })
+        })
+    });
+</script>
+{% endblock jquery %}
