@@ -9,9 +9,6 @@ urlpatterns = [
     path('', views.home, name = 'guest-home'),
     path('blog/', include('blog.urls')),
     path('support/', views.support, name = 'guest-support'),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/login/', views.login, name='registration-login'),
-    path('accounts/logout/', views.logout, name='registration-logout'),
 ]
 
 if settings.DEBUG:

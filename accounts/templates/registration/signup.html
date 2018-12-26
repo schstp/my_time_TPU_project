@@ -1,0 +1,47 @@
+{% load static %}
+<!docktype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'my_time/style.css' %}">
+    <title>Регистрация</title>
+</head>
+<body>
+<form method="post">
+{% csrf_token %}
+    <div class="login_form">
+        <div class="minimal-body">
+        <div class="heading">
+            <div class="logo"></div>
+            <P class="tagline">Успевайте везде.</P>
+        </div>
+        <div>
+            <div class="login-input">
+                <p>
+                <input type="text" name="username" maxlength="150" placeholder="Придумайте логин" autofocus required id="id_username">
+                <input type="email" name="email" placeholder="Введите Ваш email" maxlength="254" required id="id_email">
+                <input type="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}"  name="password1" placeholder="Придумайте пароль" autocomplete="new-password" required id="id_password1">
+                <input type="password" name="password2" placeholder="Повторите пароль" autocomplete="new-password" required id="id_password2">
+                </p>
+                <div >
+                    {% if form.errors.username %}
+                    <p class="error1">* Пользователь с таким именем уже существует</p>
+                    {% endif %}
+                    {% if form.errors.email %}
+                    <p class="error1">* Пользователь с таким email уже существует</p>
+                    {% endif %}
+                    {% if form.errors.password2 %}
+                    <p class="error1">{{ form.errors.password2.as_text }}</p>
+                    {% endif %}
+                </div>
+            <input class="login-btn" type="submit" value="Зарегестрироваться"/>
+            </div>
+            </div>
+            <div>Уже есть аккаунт?</div>
+            <a class="create-account" href="{% url 'registration-login' %}">Войти</a>
+        </div>
+    </div>
+</form>
+</body>
+</html>

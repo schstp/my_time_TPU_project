@@ -36,7 +36,7 @@ a.article-link:hover {
 .post-img {
     padding:20px 0;
     max-width:70%;
-    max-height:50%;
+    max-height:auto;
 }
 
 .post-date {
