@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -36,7 +37,7 @@ ROOT_URLCONF = 'my_time.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS':['./templates', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -113,3 +114,4 @@ EMAIL_HOST_PASSWORD = 'zxcvb/.,mn'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = 'mytimeteam@mail.ru'
+LOGIN_REDIRECT_URL = '/'
