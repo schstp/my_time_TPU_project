@@ -12,10 +12,10 @@ def contactForm(reguest):
             subject = form.cleaned_data['subject']
             sender = form.cleaned_data['sender']
             message = form.cleaned_data['message']
-            recipient_list = ['mytimeteam@mail.ru']
+            recipient_list = ['myTime.help.team@gmail.com']
 
             try:
-                send_mail(subject, message + '\nПолучено от: ' + sender, 'mytimeteam@mail.ru', recipient_list)
+                send_mail(subject, message + '\nПолучено от: ' + sender, 'myTime.help.team@gmail.com', recipient_list)
             except BadHeaderError: #Защита от уязвимости
                 return HttpResponse('Invalid header found')
 

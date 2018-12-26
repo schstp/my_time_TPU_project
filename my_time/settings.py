@@ -12,6 +12,7 @@ INSTALLED_APPS = [
     'guest.apps.GuestConfig',
     'blog.apps.BlogConfig',
     'feedback.apps.FeedbackConfig',
+    'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -19,7 +20,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
-    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +86,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -108,10 +108,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_HOST_USER = 'mytimeteam@mail.ru'
-EMAIL_HOST_PASSWORD = 'zxcvb/.,mn'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = 'mytimeteam@mail.ru'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'myTime.help.team@gmail.com'
+EMAIL_HOST_PASSWORD = 'njjfei843fsd/vwe.'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = 'myTime.help.team@gmail.com'
 LOGIN_REDIRECT_URL = '/'
