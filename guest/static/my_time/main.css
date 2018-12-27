@@ -39,6 +39,11 @@ a.article-link:hover {
     max-height:auto;
 }
 
+.user-avatar {
+    max-width:50px;
+    max-height:auto;
+}
+
 .post-date {
     color: #ccced2;
     font-weight:50;
@@ -47,8 +52,4 @@ a.article-link:hover {
 .post-descr {
     color: #444444;
     font-size:13pt;
-}
-
-.comment-appearance {
-    margin-top:5%;
 }

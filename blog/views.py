@@ -51,6 +51,7 @@ class CreateCommentView(View):
         new_comment = article.comment_set.create(author = request.user, content = comment)
         comment = [
             {'author':new_comment.author.username,
+             'author_avatar': new_comment.author.userprofile.avatar.url,
              'comment': new_comment.content,
              'timestemp':new_comment.timestemp.strftime('%d/%m/%Y'),
              }

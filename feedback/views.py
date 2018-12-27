@@ -4,33 +4,45 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from .forms import ContactForm
 
-def contactForm(reguest):
-    if reguest.method == 'POST':
-        form = ContactForm(reguest.POST)
+def contactForm(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if request.user.is_authenticated:
+            del form.fields['sender']
 
         if form.is_valid():
             subject = form.cleaned_data['subject']
-            sender = form.cleaned_data['sender']
+            name = form.cleaned_data['name']
             message = form.cleaned_data['message']
+
             recipient_list = ['myTime.help.team@gmail.com']
 
+            if request.user.is_authenticated:
+                sender = request.user.email
+            else:
+                sender = form.cleaned_data['sender']
+
+            message = name + '\n' + message + '\nПолучено от: ' + sender
+
             try:
-                send_mail(subject, message + '\nПолучено от: ' + sender, 'myTime.help.team@gmail.com', recipient_list)
-            except BadHeaderError: #Защита от уязвимости
+                send_mail(subject, message, 'myTime.help.team@gmail.com', recipient_list)
+            except BadHeaderError:
                 return HttpResponse('Invalid header found')
 
             return HttpResponseRedirect('/support/thanks')
 
     else:
         form = ContactForm()
+        if request.user.is_authenticated:
+            del form.fields['sender']
 
     context = {
         'title': 'Support',
         'form': form,
-        'username': auth.get_user(reguest).username
+        'username': auth.get_user(request).username
     }
 
-    return render(reguest, 'feedback/support.html', context)
+    return render(request, 'feedback/support.html', context)
 
 def thanks(reguest):
     context = {
