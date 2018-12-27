@@ -1,4 +1,62 @@
 {% extends "guest/base.html" %}
 {% block content %}
-<h1>HOME page</h1>
+<div class="container">
+    <div class="block">
+        <div class="image_right" >
+            <img src="/static/my_time/img/brain.png" >
+        </div>
+        <div class="block_text_left">
+            <div class="heading">Организуйте свой день</div>
+            <div class="content">
+                MyTime помогает расставлять приоритеты в задачах по проектам, планировать свой день, вести списки дел и держать жизнь под контролем.
+            </div>
+            <a class="button" href="{% url 'registration-signup' %}">
+                Создать аккаунт
+            </a>
+        </div>
+    </div>
+    <div class="block">
+        <div class="image_left" >
+            <img src="/static/my_time/img/computer.png">
+        </div>
+        <div class="block_text_right">
+            <div class="heading">Держите все под контролем</div>
+            <div class="content">
+                Планируйте, управляйте проектами, составляйте расписание в любой точке мира, где есть интернет.
+            </div>
+            <a class="button" href="{% url 'registration-login' %}">
+                Войти в аккаунт
+            </a>
+        </div>
+    </div>
+    <div class="block">
+        <div class="image_right" >
+            <img src="/static/my_time/img/blog.png" >
+        </div>
+        <div class="block_text_left">
+            <div class="heading">Новости и обновления</div>
+            <div class="content">
+                MyTime постоянно развивается и все новости, а так же все о функционале вы пожете узнать на странице блога.
+            </div>
+            <a class="link" href="{% url 'guest-blog' %}">
+                Перейти в блог ->
+            </a>
+        </div>
+    </div>
+    <div class="block">
+        <div class="image_left" >
+            <img src="/static/my_time/img/support.png">
+        </div>
+        <div class="block_text_right">
+            <div class="heading">Наша команда всегда рада Вам помочь</div>
+            <div class="content">
+                Если у Вас возникли какие-либо трудности или Вы нашли ошибки в работе сайте, Вы можете связаться с нами. Для это перейдите во вкладку "Поддержка".
+            </div>
+            <a class="link" href="{% url 'guest-support' %}">
+                <- Перейти на страницу поддержки
+            </a>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}

@@ -1,10 +1,26 @@
 .form-appearance {
+    float:left;
     background-color: #f4f6f7;
     border-radius: 15px;
     padding: 2%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    min-width: 500px;
+    min-height: 600px;
+    margin-top: 45px;
+    margin-bottom: 68px;
     box-shadow: 0 0 10px #5c5c5c;
+}
+
+.feedback-title {
+    align-text:justify;
+}
+
+.example {
+    background-image: url("main.png");
+}
+
+.image_feedback img {
+    float: right;
+    margin-top: 120px;
+    max-width: 100%;
+    max-height: 450px;
 }
