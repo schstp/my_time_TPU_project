@@ -114,4 +114,6 @@ EMAIL_HOST_USER = 'myTime.help.team@gmail.com'
 EMAIL_HOST_PASSWORD = 'njjfei843fsd/vwe.'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'myTime.help.team@gmail.com'
+
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

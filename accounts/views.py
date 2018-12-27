@@ -9,16 +9,6 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
-
-def login(request):
-
-    return render(request, 'registration/login.html')
-
-
-def logout(request):
-
-    return render(request, 'registration/logged_out.html')
 
 
 def SignUp(request):
@@ -28,10 +18,6 @@ def SignUp(request):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
-            #username = form.cleaned_data.get('username')
-            #my_password = form.cleaned_data.get('password1')
-            #user = authenticate(username=username, password=my_password)
-            #login1(request, user)
             current_site = get_current_site(request)
             message = render_to_string('registration/acc_active_email.html', {
                 'user': user,
@@ -43,11 +29,10 @@ def SignUp(request):
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
-            return HttpResponse('Please confirm your email address to complete the registration')
-            #return redirect('/')
+            context = 'На Ваш email было отправлено письмо для подтверждения аккаунта, после подтверждения вы сможете войти в аккаунт!'
+            return render(request, 'registration/confirmation.html', {'context': context})
     else:
         form = SignUpForm()
-
     return render(request, 'registration/signup.html', {'form': form})
 
 
@@ -61,7 +46,10 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login1(request, user)
-        # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        context = 'Подтверждение прошло успешно, теперь Вы можете войти в аккаунт!'
+        return render(request, 'registration/confirmation.html', {'context': context})
     else:
-        return HttpResponse('Activation link is invalid!')
+        context = 'Ваш аккаунт уже активирован, если у Вас проблемы со входом обратитесь в службу поддержки!'
+        return render(request, 'registration/confirmation.html', {'context': context})
+
+
