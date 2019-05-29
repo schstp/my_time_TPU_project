@@ -1,0 +1,40 @@
+{% load static %}
+<!docktype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'my_time/style.css' %}">
+    <title>Добро пожаловать</title>
+</head>
+<body>
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+    <div class="login_form">
+        <div class="minimal-body">
+        <div class="heading">
+            <div class="logo"></div>
+            <P class="tagline">Успевайте везде.</P>
+        </div>
+        <div>
+            <div class="login-input">
+                <p>
+                <input type="text" name="username" placeholder="Введите логин"  id="id_username">
+                <input type="password" name="password" placeholder="Введите пароль" autocomplete="new-password"  id="id_password">
+                </p>
+                <div >
+                    {% if form.errors %}
+                    <p class="error">* Неправильный логин или пароль</p>
+                    {% endif %}
+                    <a class ='login' href="#">Забыли пароль?</a>
+                </div>
+            <input type="submit" value="Войти" class="login-btn"/>
+            </div>
+        </div>
+            <div>У вас нет аккаунта?</div>
+            <a class="create-account" href="{% url 'registration-signup' %}">Создать аккаунт</a>
+        </div>
+    </div>
+</form>
+</body>
+</html>

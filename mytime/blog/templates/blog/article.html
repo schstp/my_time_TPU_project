@@ -1,0 +1,110 @@
+{% extends "guest/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3>{{article.title}}</h3>
+            <p class="post-date">Опубликовано {{article.date|date:"d/m/Y"}} |
+                {% if comments.count > 0 %}
+                <a href="#comlink">{{comments.count}} Comments</a>
+                {% endif %}
+            </p>
+            {%if article.mainImage %}
+            <img class="post-img" src="{{article.mainImage.url}}">
+            {% endif %}
+            <p class="post-descr">{{article.post |safe|linebreaks}}</p>
+
+            <a id="comlink"></a>
+            <h4>Комментарии</h4>
+            {% if user.is_authenticated %}
+            <hr>
+            <div class="row">
+                <div class="col-sm-1 pr-0">
+                    <img class="user-avatar" src="{{user.userprofile.avatar.url}}">
+                </div>
+                <div class="col-sm-7 col-sm-offset-2 pl-0">
+                    <form action="" method="POST">
+                        <input type="hidden" id="article" data-id="{{article.id}}">
+                        {% csrf_token %}
+                        {{form | crispy}}
+                        <input type="submit" value="Добавить комментарий" id="add_comment" class="btn btn-outline-success">
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <div class="new_comment"></div>
+
+            {% else %}
+            <hr>
+            <p>Для того чтобы оставлять комментарии необходимо <a href="{% url 'registration-login' %}">авторизоваться</a>.</p>
+            <hr>
+            {% endif %}
+
+            {% for comment in comments %}
+            <div class="row">
+                <div class="col-sm-1 pr-0">
+                    <img class="user-avatar" src="{{comment.author.userprofile.avatar.url}}">
+                </div>
+                <div class="col-sm-7 col-sm-offset-2 pl-0">
+                    <small>{{comment.author.username}}, {{comment.timestemp|date:"d/m/Y"}}</small>
+                    <p>{{comment.content}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+<div>
+</div>
+{% endblock content %}
+{% block jquery %}
+<script>
+    $(document).ready(function(){
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+
+        $('#add_comment').on('click', function(e){
+            e.preventDefault()
+            var article_id = $('#article').attr('data-id')
+            var comment = $('#id_comment').val()
+
+            data = {
+                article_id: article_id,
+                comment: comment,
+                csrfmiddlewaretoken: csrftoken,
+            }
+
+            $.ajax({
+                type:'POST',
+                url: '{% url 'add_comment' %}',
+                dataType: 'json',
+                data: data,
+                success:function(data){
+                    $.each(data, function(field){
+                        $('.new_comment').prepend('<div class="row">' + '<div class="col-sm-1 pr-0">'+
+                            '<img class="user-avatar" src="'+ data[field]['author_avatar'] +  '"></div>' +
+                            '<div class="col-sm-7 col-sm-offset-2 pl-0"><small>' +
+                            data[field]['author'] + ', ' + data[field]['timestemp'] + '</small><p>' + data[field]['comment'] + '</p></div></div>')
+
+                        $('#id_comment').val('')
+                    })
+                }
+            })
+        })
+    });
+</script>
+{% endblock jquery %}

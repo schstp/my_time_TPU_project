@@ -1,0 +1,36 @@
+.form-appearance {
+    float: left;
+    background-color: #f4f6f7;
+    border-radius: 15px;
+    padding: 2%;
+    min-height: 650px;
+    min-width: 400px;
+    width: 50%;
+    margin-top: 20px;
+    margin-bottom: 30%;
+    box-shadow:0 0 10px #5c5c5c
+}
+
+.feedback-title {
+    align-text:justify;
+}
+
+.example {
+    background-image: url("main.png");
+}
+
+.image_feedback img {
+    float: right;
+    margin-top: 120px;
+    max-width: 100%;
+    max-height: 450px;
+}
+
+.form {
+    background-color: #f4f6f7;
+    border-radius: 15px;
+    padding: 2%;
+    width: 50%;
+    margin-top: 20px;
+    box-shadow:0 0 10px #5c5c5c
+}
