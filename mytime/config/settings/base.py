@@ -66,13 +66,14 @@ LOCAL_APPS = [
     'blog.apps.BlogConfig',
     'feedback.apps.FeedbackConfig',
     'accounts.apps.AccountsConfig',
+    'main.apps.MainConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/main'
 LOGOUT_REDIRECT_URL = '/'
 
 # PASSWORDS

@@ -1,0 +1,142 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'my_time/main_2.css' %}">
+
+    <title>myTime</title>
+  </head>
+
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+
+    <div class="dropdown show" style="margin-left: -0.3rem">
+      <img class="user-avatar" src="{{user.userprofile.avatar.url}}">
+
+      <a class="dropdown-toggle settings-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ user.get_username }}
+      </a>
+
+      <b style="color: #ffffff;font-size: large; margin-left: 7.6rem">Входящие</b>
+      <!-- settings -->
+
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <a class="dropdown-item" href="#">Параметры учетной записи</a>
+        <a class="dropdown-item" href="#">Изменить фоновое изображение</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Сайт myTime</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Выход</a>
+      </div>
+    </div>
+
+    <!-- toggler -->
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarCollapse"
+      aria-controls="navbarCollapse"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- lists -->
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto sidenav" id="navAccordion">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">
+            <img class="icon" src="/static/my_time/img/inbox.png">
+            Входящие
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <img class="icon" src="/static/my_time/img/today.png">
+            Сегодня
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <img class="icon" src="/static/my_time/img/tomorrow.png">
+            Завтра
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <img class="icon" src="/static/my_time/img/week.png">
+            Неделя
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <img class="icon" src="/static/my_time/img/starred.png">
+            Отмеченное
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <img class="icon" src="/static/my_time/img/all.png">
+            Все
+          </a>
+        </li>
+
+        <div class="dropdown-divider"></div>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <img class="icon" src="/static/my_time/img/personal-list.png">
+            Работа
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <img class="icon" src="/static/my_time/img/personal-list.png">
+            Учеба
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <img class="icon" src="/static/my_time/img/personal-list.png">
+            Личное
+          </a>
+        </li>
+      </ul>
+
+    <!-- search line -->
+
+    <form class="form-inline ml-auto mt-2 mt-md-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" style="height:30px">
+      <button class="btn btn-success my-2 my-sm-0 btn-sm" type="submit">Search</button>
+    </form>
+  </div>
+    </nav>
+
+    <!-- main area -->
+
+    <main class="content-wrapper">
+      <div class="container-fluid">
+        <form>
+          <div class="form-row">
+            <div class="col">
+              <input type="text" class="form-control" placeholder="+ Добавить задачу..." style="margin-left: 0.3rem">
+            </div>
+          </div>
+    </main>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
