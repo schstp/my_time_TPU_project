@@ -4,7 +4,8 @@ html {
 }
 
 body {
-    background-color: #e4e9df;
+    background: url("/static/my_time/img/background.jpg") no-repeat;
+    background-size: 100% auto;
     padding-top: 4.5rem;
     margin-bottom: 4.5rem;
 
@@ -37,7 +38,7 @@ body {
     left: 0;
     width: 240px;
     height: calc(100vh);
-    margin-top: 3.2rem;
+    margin-top: 3.19rem;
     background: #ffffff;
     box-sizing: border-box;
 
@@ -74,5 +75,23 @@ body {
     max-width:30px;
     max-height:auto;
     margin-right: 0.4rem;
+}
+
+.newtask-input {
+    margin-left: 0.3rem;
+}
+
+.form-control:focus{
+    border-color: #cccccc;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.search-input {
+    padding: 5px 5px 5px 40px;
+    height: 20px;
+    background: url("/static/my_time/img/search-icon.png") no-repeat 3px 1px;
+    background-size: auto 90%;
+    background-color: #ffffff;
 }
 

@@ -1,6 +1,6 @@
 import os
 import json
-
+import sys
 
 from django.core.exceptions import ImproperlyConfigured
 
@@ -17,8 +17,8 @@ def get_secret(setting, secrets=secret_data):
         raise ImproperlyConfigured(error_msg)
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+print(BASE_DIR)
 #GENERAL
 #-----------------------------------------------------------------------------
 LANGUAGE_CODE = 'ru-ru'
