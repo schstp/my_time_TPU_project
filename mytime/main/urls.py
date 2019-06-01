@@ -6,7 +6,7 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.home, name = 'main-base'),
+    path('', views.TaskListView.as_view(), name = 'main-base'),
 ]
 
 if settings.DEBUG:
