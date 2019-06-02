@@ -17,6 +17,12 @@ class List(TimeStampedModel):
     class Meta:
         ordering = ['-created']
 
+    def count_tasks(self):
+        return self.task_set.count()
+
+    def count_overdue_tasks(self):
+        pass
+
     def __str__(self):
         return self.title
 
@@ -24,7 +30,20 @@ class List(TimeStampedModel):
 class Task(TimeStampedModel):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     title = models.TextField()
-    lists = models.ForeignKey(List, on_delete=models.CASCADE)
+    list = models.ForeignKey(List, null=True, blank=True, on_delete=models.CASCADE)
+    starred = models.BooleanField(default= False)
+
+    NONE_PRIORITY = 0
+    LOW_PRIORITY = 1
+    MIDDLE_PRIORITY = 2
+    HIGH_PRIORITY = 3
+    PRIORITY_LVL_CHOICES = (
+        (NONE_PRIORITY, 'not specified'),
+        (LOW_PRIORITY, 'green'),
+        (MIDDLE_PRIORITY, 'yellow'),
+        (HIGH_PRIORITY, 'red'),
+    )
+    priority_lvl = models.IntegerField(choices=PRIORITY_LVL_CHOICES, default=NONE_PRIORITY)
 
     class Meta:
         ordering = ['-created']
