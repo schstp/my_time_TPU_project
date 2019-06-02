@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 class TimeStampedModel(models.Model):
@@ -21,7 +22,7 @@ class List(TimeStampedModel):
         return self.task_set.count()
 
     def count_overdue_tasks(self):
-        pass
+        return self.task_set.filter(planned_on__date__lt=datetime.now().date()).count()
 
     def __str__(self):
         return self.title
@@ -31,7 +32,8 @@ class Task(TimeStampedModel):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     title = models.TextField()
     list = models.ForeignKey(List, null=True, blank=True, on_delete=models.CASCADE)
-    starred = models.BooleanField(default= False)
+    starred = models.BooleanField(default=False)
+    planned_on = models.DateTimeField(blank=True, null=True)
 
     NONE_PRIORITY = 0
     LOW_PRIORITY = 1
