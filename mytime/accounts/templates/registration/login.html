@@ -27,13 +27,13 @@
                     {% if form.errors %}
                     <p class="error">* Неправильный логин или пароль</p>
                     {% endif %}
-                    <a class ='login' href="#">Забыли пароль?</a>
+                    <a class ='login' href="{% url 'password_reset' %}">Забыли пароль?</a>
                 </div>
             <input type="submit" value="Войти" class="login-btn"/>
             </div>
         </div>
             <div>У вас нет аккаунта?</div>
-            <a class="create-account" href="{% url 'registration-signup' %}">Создать аккаунт</a>
+            <a class="create-account" href="{% url 'signup' %}">Создать аккаунт</a>
         </div>
     </div>
 </form>

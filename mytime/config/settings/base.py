@@ -70,13 +70,14 @@ LOCAL_APPS = [
     'main.apps.MainConfig',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
 LOGIN_REDIRECT_URL = '/main'
 LOGOUT_REDIRECT_URL = '/'
-
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
 # PASSWORDS
 # ------------------------------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [

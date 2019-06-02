@@ -32,11 +32,11 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href="{% url 'registration-logout' %}">Выход</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Выход</a>
                 <a class="nav-item nav-link" href="#"> Здравствуйте, {{ user.get_username }}</a>
               {% else %}
-                <a class="nav-item nav-link" href="{% url 'registration-login' %}">Вход</a>
-                <a class="nav-item nav-link" href="{% url 'registration-signup' %}">Регистрация</a>
+                <a class="nav-item nav-link" href="{% url 'login' %}">Вход</a>
+                <a class="nav-item nav-link" href="{% url 'signup' %}">Регистрация</a>
               {% endif %}
             </div>
           </div>
