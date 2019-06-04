@@ -7,11 +7,7 @@ class UserProfile (models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to="profile_images", default="default_avatar/default.png")
 
-    def create_profile(sender, **kwargs):
-        if kwargs['created']:
-            user_profile = UserProfile.objects.create(user=kwargs['instance'])
-
     def __str__(self):
-        return self.user.username
+        return 'Profile for user {}'.format(self.user.username)
 
-    post_save.connect(create_profile, sender=User)
+
