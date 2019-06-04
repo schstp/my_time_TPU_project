@@ -6,7 +6,9 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.TaskListView.as_view(), name = 'initial'),
+    path('', views.TaskListView.as_view(), name='initial'),
+    path('add_task', views.AddNewTaskView.as_view(), name='add_task'),
+    path('search_query', views.SearchResultsView.as_view(), name='search_query')
 ]
 
 if settings.DEBUG:

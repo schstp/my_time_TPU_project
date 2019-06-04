@@ -8,8 +8,8 @@ from . import views
 
 urlpatterns = [
     path('', views.blog, name = 'guest-blog'),
-    re_path(r'^(?P<pk>\d+)/', views.article_detail, name = 'blog-post'),
-    path('add_comment', views.CreateCommentView.as_view(), name = 'add_comment'),
+    re_path(r'^(?P<pk>\d+)/', views.article_detail, name='blog-post'),
+    path('add_comment', views.CreateCommentView.as_view(), name='add_comment'),
 ]
 
 if settings.DEBUG:

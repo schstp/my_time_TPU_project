@@ -78,15 +78,15 @@
         var csrftoken = getCookie('csrftoken');
 
         $('#add_comment').on('click', function(e){
-            e.preventDefault()
-            var article_id = $('#article').attr('data-id')
-            var comment = $('#id_comment').val()
+            e.preventDefault();
+            var article_id = $('#article').attr('data-id');
+            var comment = $('#id_comment').val();
 
             data = {
                 article_id: article_id,
                 comment: comment,
                 csrfmiddlewaretoken: csrftoken,
-            }
+            };
 
             $.ajax({
                 type:'POST',
