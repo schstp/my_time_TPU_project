@@ -8,7 +8,8 @@ from . import views
 urlpatterns = [
     path('', views.TaskListView.as_view(), name='index'),
     path('add_task', views.AddNewTaskView.as_view(), name='add_task'),
-    path('search_query', views.SearchResultsView.as_view(), name='search_query')
+    path('search_query', views.SearchResultsView.as_view(), name='search_query'),
+    path('active_list', views.ActiveListChangeView.as_view(), name='active_list'),
 ]
 
 if settings.DEBUG:

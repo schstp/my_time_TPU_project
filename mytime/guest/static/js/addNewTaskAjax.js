@@ -1,9 +1,7 @@
+let csrftoken = getCookie('csrftoken');
 
-
-var csrftoken = getCookie('csrftoken');
-
-var newTaskInputElement = $('#newTaskInput');
-var newTaskButtonElement = $('#newTaskButton');
+let newTaskInputElement = $('#newTaskInput');
+let newTaskButtonElement = $('#newTaskButton');
 
 newTaskButtonElement.on('click', function (e) {
     e.preventDefault();
@@ -16,11 +14,13 @@ newTaskInputElement.on('keydown', function(e) {
 
 
         let title = newTaskInputElement.val();
-        let activeList = document.getElementById('lists').querySelector('.active').querySelector('a');
+        let activeListId = document.getElementById('lists').querySelector('.active').querySelector('a').id;
 
         let data = {
             title: title,
-            active_list: activeList.id,
+            active_list_id: activeListId,
+            starred: true,
+            planned_on: null,
             csrfmiddlewaretoken: csrftoken,
         };
 
@@ -54,6 +54,30 @@ newTaskInputElement.on('keydown', function(e) {
 
                     newTaskInputElement.val('');
                     newTaskInputElement.blur();
+
+                    for (let list in data['smart_lists']) {
+                        let overdueBadge = document.getElementById('overdueBadge' + data['smart_lists'][list]['slug']);
+                        let allBadge = document.getElementById('allBadge' + data['smart_lists'][list]['slug']);
+
+                        if (data['smart_lists'][list]['count_tasks']) {
+                            if (data['smart_lists'][list]['count_overdue_tasks']) {
+                                overdueBadge.innerHTML = data['smart_lists'][list]['count_overdue_tasks'];
+                            }
+                            allBadge.innerHTML = data['smart_lists'][list]['count_tasks'];
+                        }
+                    }
+
+                    for (let list in data['personal_lists']) {
+                        let overdueBadge = document.getElementById('overdueBadge' + data['personal_lists'][list]['id']);
+                        let allBadge = document.getElementById('allBadge' + data['personal_lists'][list]['id']);
+
+                        if (data['personal_lists'][list]['count_tasks']) {
+                            if (data['personal_lists'][list]['count_overdue_tasks']) {
+                                overdueBadge.innerHTML = data['personal_lists'][list]['count_overdue_tasks'];
+                            }
+                            allBadge.innerHTML = data['personal_lists'][list]['count_tasks'];
+                        }
+                    }
                 }
             }
         })

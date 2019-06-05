@@ -2,17 +2,22 @@
 {% load static %}
 {% block lists %}
         <!-- smart lists -->
-        {% for list in smart_lists %}
+        {% for key, list in smart_lists.items %}
         <li class="nav-item" id="inbox-li">
-          <a class="nav-link" id="{{ list.slug }}" href="#">
+          <a class="nav-link" id="{{ list.slug }}" href="#" onclick="changeList(this)">
             <img class="icon" src="{% static 'my_time/img/' %}{{ list.slug }}.png">
             {{ list.name }}
             {% if list.count_tasks %}
               <div class="float-right">
                   {% if list.count_overdue_tasks %}
-                    <span class="badge badge-pill badge-danger">{{ list.count_overdue_tasks }}</span>
+                    <span class="badge badge-pill badge-danger" id="overdueBadge{{list.slug}}">{{ list.count_overdue_tasks }}</span>
                   {% endif %}
-                  <span class="badge badge-pill badge-light">{{ list.count_tasks }}</span>
+                  <span class="badge badge-pill badge-light" id="allBadge{{list.slug}}">{{ list.count_tasks }}</span>
+              </div>
+            {% else %}
+              <div class="float-right">
+                  <span class="badge badge-pill badge-danger" id="overdueBadge{{list.slug}}"></span>
+                  <span class="badge badge-pill badge-light" id="allBadge{{list.slug}}"></span>
               </div>
             {% endif %}
           </a>
@@ -26,19 +31,24 @@
 
         <!-- user lists -->
         <div class="dropdown-divider"></div>
-        {% for list in lists %}
+        {% for list in personal_lists %}
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="#" id="{{ list.id }}" onclick="changeList(this)">
                 <img class="icon" src="{% static 'my_time/img/' %}personal-list.png">
                   {{ list.title }}
                   {% if list.count_tasks %}
                   <div class="float-right">
                       {% if list.count_overdue_tasks %}
-                      <span class="badge badge-pill badge-danger">{{ list.count_overdue_tasks }}</span>
+                      <span class="badge badge-pill badge-danger" id="overdueBadge{{list.id}}">{{ list.count_overdue_tasks }}</span>
                       {% endif %}
-                      <span class="badge badge-pill badge-light">{{ list.count_tasks }}</span>
+                      <span class="badge badge-pill badge-light" id="allBadge{{list.id}}">{{ list.count_tasks }}</span>
                   </div>
-                  {% endif %}
+                  {% else %}
+                  <div class="float-right">
+                      <span class="badge badge-pill badge-danger" id="overdueBadge{{list.id}}"></span>
+                      <span class="badge badge-pill badge-light" id="allBadge{{list.id}}"></span>
+                  </div>
+            {% endif %}
               </a>
             </li>
         {% endfor%}
@@ -75,7 +85,7 @@
         <!--tasks-->
         <div>
           <ul class="list-group tasks-list" id="listRoot">
-            {% for task in smart_lists.0.tasks %}
+            {% for task in smart_lists.inbox.tasks %}
               <li  class="list-group-item item-alignment">
                   <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="customCheck{{ task.id }}">
@@ -91,5 +101,6 @@
     <script type="text/javascript" src="{% static 'js/csrftoken.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/addNewTaskAjax.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/searchAjax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/changeActiveList.js' %}"></script>
 {% endblock tasks %}
 

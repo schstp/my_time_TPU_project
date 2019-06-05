@@ -16,7 +16,7 @@ class List(TimeStampedModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ['-created']
+        ordering = ['created']
 
     def count_tasks(self):
         return self.task_set.count()
@@ -48,7 +48,7 @@ class Task(TimeStampedModel):
     priority_lvl = models.IntegerField(choices=PRIORITY_LVL_CHOICES, default=NONE_PRIORITY)
 
     class Meta:
-        ordering = ['-created']
+        ordering = ['created']
 
     def __str__(self):
         return self.title
