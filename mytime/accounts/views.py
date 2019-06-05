@@ -70,6 +70,7 @@ def edit(request):
         if user_form.is_valid() and profile_form.is_valid():
             if old_email != new_email:
                 request.user.is_active = False
+                # TODO: add sending an email to confirm account
             user_form.save()
             profile_form.save()
             return redirect('initial')

@@ -74,6 +74,12 @@ INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.authentication.EmailAuthBackend',
+]
+
 LOGIN_REDIRECT_URL = '/main'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
