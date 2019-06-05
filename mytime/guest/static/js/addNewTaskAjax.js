@@ -14,7 +14,7 @@ newTaskInputElement.on('keydown', function(e) {
 
 
         let title = newTaskInputElement.val();
-        let activeListId = document.getElementById('lists').querySelector('.active').querySelector('a').id;
+        let activeListId = document.getElementById('lists').querySelector('.active').id;
 
         let data = {
             title: title,

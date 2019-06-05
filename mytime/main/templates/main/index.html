@@ -25,8 +25,8 @@
         {% endfor %}
 
         <script>
-            let li = document.getElementById('inbox-li');
-            li.className += ' active list-group-item-primary';
+            let a = document.getElementById('inbox');
+            a.className += ' active list-group-item-primary';
         </script>
 
         <!-- user lists -->
@@ -85,7 +85,7 @@
         <!--tasks-->
         <div>
           <ul class="list-group tasks-list" id="listRoot">
-            {% for task in smart_lists.inbox.tasks %}
+            {% for task in smart_lists.inbox.tasks reversed %}
               <li  class="list-group-item item-alignment">
                   <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="customCheck{{ task.id }}">

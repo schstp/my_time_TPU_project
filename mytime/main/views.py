@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 
 from .models import Task, List
-from .core import get_filled_lists, make_task, SMART_LISTS
+from .core import get_filled_lists, get_filled_querysets, make_task, SMART_LISTS
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -16,8 +16,6 @@ class TaskListView(LoginRequiredMixin, ListView):
         context.update(get_filled_lists(self.request.user))
         return context
 
-
-
     context_object_name = 'tasks'
 
 
@@ -25,15 +23,25 @@ class SearchResultsView(ListView):
     template_name = 'main/index.html'
 
     def get(self, request, *args, **kwargs):
-        list = self.request.POST.get('active_list')
+        list_id = self.request.GET.get('active_list_id')
         q = self.request.GET.get('q')
+        user = self.request.user
+        all_tasks = get_filled_querysets(user)
 
         if q:
-            all_tasks = Task.objects.filter(user=self.request.user, list=list, title__icontains=q)
-            response = [{'id': task.id, 'title': task.title} for task in all_tasks.reverse()]
+            if list_id in SMART_LISTS:
+                all_tasks = all_tasks['smart_lists'][list_id]['tasks'].filter(title__icontains=q)
+            else:
+                all_tasks = List.objects.get(pk=int(list_id)).task_set.filter(title__icontains=q)
+
+            response = [{'id': task.id, 'title': task.title} for task in all_tasks]
         else:
-            all_tasks = Task.objects.filter(user=self.request.user, list=list)
-            response = [{'id': task.id, 'title': task.title} for task in all_tasks.reverse()]
+            if list_id in SMART_LISTS:
+                all_tasks = all_tasks['smart_lists'][list_id]['tasks']
+            else:
+                all_tasks = List.objects.get(pk=int(list_id)).task_set.all()
+
+            response = [{'id': task.id, 'title': task.title} for task in all_tasks]
 
         return JsonResponse(response, safe=False)
 

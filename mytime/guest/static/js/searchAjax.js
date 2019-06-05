@@ -15,10 +15,10 @@ searchBarElement.keyup( function (e) {
 
     previousQuery = query;
 
-    let activeList = document.getElementById('lists').querySelector('.active').querySelector('a');
+    let activeList = document.getElementById('lists').querySelector('.active');
     let data = {
         q: query,
-        active_list: activeList.id,
+        active_list_id: activeList.id,
     };
 
     $.ajax({

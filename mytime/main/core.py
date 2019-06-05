@@ -75,6 +75,70 @@ def get_filled_lists(user):
     return context
 
 
+def get_filled_querysets(user):
+    context = {}
+    context['personal_lists'] = List.objects.filter(user=user)
+
+    all_tasks = Task.objects.filter(user=user)
+    now = datetime.now().date()
+    overdue_tasks = all_tasks.filter(planned_on__date__lt=now)
+    count_overdue_tasks = overdue_tasks.count()
+
+    inbox = all_tasks.filter(list=None)
+    today = all_tasks.filter(planned_on__date=now) | overdue_tasks
+    tomorrow = all_tasks.filter(planned_on__date=now + timedelta(days=1))
+    week = all_tasks.filter(planned_on__date__gte=now, planned_on__date__lte=now + timedelta(days=7)) | overdue_tasks
+    starred = all_tasks.filter(starred=True)
+
+    smart_lists = {
+        'inbox':{
+            'name': 'Входящие',
+            'slug': 'inbox',
+            'tasks': inbox,
+            'count_tasks': inbox.count(),
+            'count_overdue_tasks': inbox.filter(planned_on__date__lt=now).count(),
+        },
+        'today':{
+            'name': 'Сегодня',
+            'slug': 'today',
+            'tasks': today,
+            'count_tasks': today.count(),
+            'count_overdue_tasks': count_overdue_tasks},
+        'tomorrow':{
+            'name': 'Завтра',
+            'slug': 'tomorrow',
+            'tasks': tomorrow,
+            'count_tasks': tomorrow.count(),
+            'count_overdue_tasks': 0,
+        },
+        'week':{
+            'name': 'Неделя',
+            'slug': 'week',
+            'tasks': week,
+            'count_tasks': week.count(),
+            'count_overdue_tasks': count_overdue_tasks,
+        },
+        'starred':{
+            'name': 'Отмеченные',
+            'slug': 'starred',
+            'tasks': starred,
+            'count_tasks': starred.count(),
+            'count_overdue_tasks': starred.filter(planned_on__date__lt=now).count(),
+        },
+        'all':{
+            'name': 'Все',
+            'slug': 'all',
+            'tasks': all_tasks,
+            'count_tasks': all_tasks.count(),
+            'count_overdue_tasks': count_overdue_tasks,
+        },
+
+    }
+
+    context['smart_lists'] = smart_lists
+    return context
+
+
 def make_task(request):
     user = request.user
     list_id = request.POST.get('active_list_id')
