@@ -3,3 +3,4 @@ django-crispy-forms==1.7.2
 Pillow==6.0.0
 pytz==2018.9
 sqlparse==0.3.0
+social-auth-app-django==2.1.0

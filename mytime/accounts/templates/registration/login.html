@@ -27,6 +27,7 @@
                     {% if form.errors %}
                     <p class="error">* Неправильный логин или пароль</p>
                     {% endif %}
+                    <li class="google"><a href="{% url "social:begin" "google-oauth2" %}">Login with Google</a></li>
                     <a class ='login' href="{% url 'password_reset' %}">Забыли пароль?</a>
                 </div>
             <input type="submit" value="Войти" class="login-btn"/>

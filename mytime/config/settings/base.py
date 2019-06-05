@@ -56,6 +56,7 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
 ]
 
 THIRD_PARTY_APPS = [
@@ -78,7 +79,11 @@ INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'accounts.authentication.EmailAuthBackend',
+    'social_core.backends.google.GoogleOAuth2',
 ]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '520026359185-uhcrq4tiubqv9t7gnkrdubs3k8dpok92.apps.googleusercontent.com' # Google Consumer Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'xaMpUFKqG-FClvmN3QTFF4Ln' # Google Consumer Secret
 
 LOGIN_REDIRECT_URL = '/main'
 LOGOUT_REDIRECT_URL = '/'

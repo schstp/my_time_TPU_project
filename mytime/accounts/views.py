@@ -20,9 +20,9 @@ def SignUp(request):
             user.is_active = False
             user.set_password(form.cleaned_data['password1'])
             user.save()
-            UserProfile.objects.create(user=user)
             send_email(form, user, request)
-            context = 'На Ваш email было отправлено письмо для подтверждения аккаунта, после подтверждения вы сможете войти в аккаунт!'
+            context = 'На Ваш email было отправлено письмо для подтверждения аккаунта,' \
+                      ' после подтверждения вы сможете войти в аккаунт!'
             return render(request, 'registration/confirmation.html', {'context': context})
     else:
         form = SignUpForm()
