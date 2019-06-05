@@ -10,7 +10,7 @@ SMART_LISTS = {'inbox', 'today', 'tomorrow', 'week', 'starred', 'all'}
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
-    template_name = 'main/initial.html'
+    template_name = 'main/index.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TaskListView, self).get_context_data()
@@ -80,27 +80,32 @@ class TaskListView(LoginRequiredMixin, ListView):
 
 
 class SearchResultsView(ListView):
-    template_name = 'main/initial.html'
+    template_name = 'main/index.html'
 
     def get(self, request, *args, **kwargs):
-        all_tasks = Task.objects.filter(user=self.request.user)
-        q = self.request.GET.get("q")
+        list = self.request.POST.get('active_list')
+        q = self.request.GET.get('q')
+
         if q:
-            all_tasks = all_tasks.filter(title__icontains=q)
-        response = [{'id': task.id, 'title': task.title} for task in all_tasks]
+            all_tasks = Task.objects.filter(user=self.request.user, list=list, title__icontains=q)
+            response = [{'id': task.id, 'title': task.title} for task in all_tasks.reverse()]
+        else:
+            all_tasks = Task.objects.filter(user=self.request.user, list=list)
+            response = [{'id': task.id, 'title': task.title} for task in all_tasks.reverse()]
+
         return JsonResponse(response, safe=False)
 
 
 class AddNewTaskView(View):
-    template_name = 'main/initial.html'
+    template_name = 'main/index.html'
 
     def post(self, request, *args, **kwargs):
         title = self.request.POST.get('title')
         user = self.request.user
-        list = self.request.POST.get('active_list')
+        task_list = self.request.POST.get('active_list')
 
         if list not in SMART_LISTS:
-            task = Task.objects.create(user=user, title=title, list=list,starred=False)
+            task = Task.objects.create(user=user, title=title, list=task_list,starred=False)
         else:
             task = Task.objects.create(user=user, title=title, starred=False)
 

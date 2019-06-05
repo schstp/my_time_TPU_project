@@ -1,0 +1,95 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block lists %}
+        <!-- smart lists -->
+        {% for list in smart_lists %}
+        <li class="nav-item" id="inbox-li">
+          <a class="nav-link" id="{{ list.slug }}" href="#">
+            <img class="icon" src="{% static 'my_time/img/' %}{{ list.slug }}.png">
+            {{ list.name }}
+            {% if list.count_tasks %}
+              <div class="float-right">
+                  {% if list.count_overdue_tasks %}
+                    <span class="badge badge-pill badge-danger">{{ list.count_overdue_tasks }}</span>
+                  {% endif %}
+                  <span class="badge badge-pill badge-light">{{ list.count_tasks }}</span>
+              </div>
+            {% endif %}
+          </a>
+        </li>
+        {% endfor %}
+
+        <script>
+            let li = document.getElementById('inbox-li');
+            li.className += ' active list-group-item-primary';
+        </script>
+
+        <!-- user lists -->
+        <div class="dropdown-divider"></div>
+        {% for list in lists %}
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <img class="icon" src="{% static 'my_time/img/' %}personal-list.png">
+                  {{ list.title }}
+                  {% if list.count_tasks %}
+                  <div class="float-right">
+                      {% if list.count_overdue_tasks %}
+                      <span class="badge badge-pill badge-danger">{{ list.count_overdue_tasks }}</span>
+                      {% endif %}
+                      <span class="badge badge-pill badge-light">{{ list.count_tasks }}</span>
+                  </div>
+                  {% endif %}
+              </a>
+            </li>
+        {% endfor%}
+
+{% endblock lists %}
+{% block search-line %}
+    <!-- search line -->
+    <form class="form-inline ml-auto mt-2 mt-md-0" action="" method="GET">
+      <input class="form-control mr-sm-2 search-input" type="text" aria-label="Search" style="height:30px" name="q" id="searchbar" placeholder="Найти в списке...">
+    </form>
+{% endblock search-line %}
+
+
+{% block tasks %}
+    <!-- content -->
+    <main class="content-wrapper">
+      <div class="container-fluid">
+
+        <!--task input-->
+        <form method="POST" action="" id="taskInsertionForm">
+          {% csrf_token %}
+          <div class="form-row task-input">
+            <div class="col">
+              <div class="input-group newtask-input">
+                  <div class="input-group-prepend">
+                    <button style="outline: none;" class="input-group-text" id="newTaskButton">+</button>
+                  </div>
+                  <input type="text" class="form-control" id="newTaskInput" placeholder="Добавить задачу...">
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!--tasks-->
+        <div>
+          <ul class="list-group tasks-list" id="listRoot">
+            {% for task in smart_lists.0.tasks %}
+              <li  class="list-group-item item-alignment">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck{{ task.id }}">
+                    <label class="custom-control-label" for="customCheck{{ task.id }}">{{ task.title }}</label>
+                  </div>
+            {% endfor %}
+          </ul>
+        </div>
+
+      </div>
+    </main>
+
+    <script type="text/javascript" src="{% static 'js/csrftoken.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/addNewTaskAjax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/searchAjax.js' %}"></script>
+{% endblock tasks %}
+
