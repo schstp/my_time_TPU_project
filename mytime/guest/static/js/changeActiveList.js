@@ -5,7 +5,9 @@ function changeList(self) {
         'active_list_id': activeListId,
     };
 
-    let taskInsertionForm = document.getElementById('taskInsertionForm')
+    let taskInsertionForm = document.getElementById('taskInsertionForm');
+    let headStatementElement = document.getElementById('headstatement');
+
     $.ajax({
         type: 'GET',
         url: 'active_list',
@@ -18,12 +20,15 @@ function changeList(self) {
                 listRoot.innerHTML = '';
                 if (activeListId === 'week') taskInsertionForm.style.display = 'None';
                 else taskInsertionForm.style.display = '';
-                
-                if (activeListId === 'inbox' || typeof +activeListId === "number") newTaskInput.placeholder = 'Добавить задачу...';
+
+                if (activeListId === 'inbox') newTaskInput.placeholder = 'Добавить задачу...';
                 if (activeListId === 'today') newTaskInput.placeholder = 'Добавить сегодняшнюю задачу в папку "Входящие"...';
                 if (activeListId === 'tomorrow') newTaskInput.placeholder = 'Добавить задачу на завтра в папку "Входящие"...';
                 if (activeListId === 'starred') newTaskInput.placeholder = 'Добавить отмеченную звездочкой задачу в папку "Входящие"...';
                 if (activeListId === 'all') newTaskInput.placeholder = 'Добавить задачу в папку "Входящие"...';
+                if (+activeListId) newTaskInput.placeholder = 'Добавить задачу...';
+
+                headStatementElement.innerHTML = data['list_title'];
 
                 $.each(data['tasks'], function (index) {
 

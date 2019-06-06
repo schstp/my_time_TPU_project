@@ -76,9 +76,37 @@ class ActiveListChangeView(View):
         context = get_filled_lists(self.request.user)
 
         if list_id in SMART_LISTS:
-            response = {'tasks': context['smart_lists'][list_id]['tasks']}
+            response = {
+                'tasks': context['smart_lists'][list_id]['tasks'],
+                'list_title': context['smart_lists'][list_id]['name'],
+            }
         else:
             active_list = List.objects.get(pk=int(list_id))
-            response = {'tasks': list(active_list.task_set.values())}
+            response = {
+                'tasks': list(active_list.task_set.values()),
+                'list_title': List.objects.get(pk=int(list_id)).title,
+            }
+
+        return JsonResponse(response, safe=False)
+
+
+class ArchiveTaskView(View):
+    template_name = 'main/index.html'
+
+    def post(self, request, *args, **kwargs):
+        list_id = self.request.POST.get('active_list_id')
+
+        task = make_task(self.request)
+        if task.title.strip():
+            task.save()
+
+        response = {
+            'id': task.id,
+            'list_id': list_id,
+            'title': task.title,
+            'starred': task.starred,
+            'planned_on': task.planned_on,
+        }
+        response.update(get_filled_lists(self.request.user))
 
         return JsonResponse(response, safe=False)

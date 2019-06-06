@@ -34,6 +34,7 @@ class Task(TimeStampedModel):
     list = models.ForeignKey(List, null=True, blank=True, on_delete=models.CASCADE)
     starred = models.BooleanField(default=False)
     planned_on = models.DateTimeField(blank=True, null=True)
+    archived = models.BooleanField(default=False)
 
     NONE_PRIORITY = 0
     LOW_PRIORITY = 1

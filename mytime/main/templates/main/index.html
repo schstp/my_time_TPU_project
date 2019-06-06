@@ -86,10 +86,10 @@
         <div>
           <ul class="list-group tasks-list" id="listRoot">
             {% for task in smart_lists.inbox.tasks reversed %}
-              <li  class="list-group-item item-alignment">
+              <li  class="list-group-item item-alignment" id="{{ task.id }}">
                   <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="customCheck{{ task.id }}">
-                    <label class="custom-control-label" for="customCheck{{ task.id }}">{{ task.title }}</label>
+                    <label class="custom-control-label checklabel" for="customCheck{{ task.id }}" onclick="archiveTask(this)">{{ task.title }}</label>
                   </div>
             {% endfor %}
           </ul>
@@ -102,5 +102,6 @@
     <script type="text/javascript" src="{% static 'js/addNewTaskAjax.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/searchAjax.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/changeActiveList.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/archiveTask.js' %}"></script>
 {% endblock tasks %}
 
