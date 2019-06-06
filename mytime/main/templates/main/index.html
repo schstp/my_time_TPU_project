@@ -30,12 +30,11 @@
         </script>
 
         <!-- user lists -->
-        <div class="dropdown-divider"></div>
+        <div class="dropdown-divider" id="user-lists-beginning"></div>
         {% for list in personal_lists %}
             <li class="nav-item">
               <a class="nav-link" href="#" id="{{ list.id }}" onclick="changeList(this)">
-                <img class="icon" src="{% static 'my_time/img/' %}personal-list.png">
-                  {{ list.title }}
+                  <img class="icon" src="{% static 'my_time/img/' %}personal-list.png">{{ list.title }}
                   {% if list.count_tasks %}
                   <div class="float-right">
                       {% if list.count_overdue_tasks %}
@@ -72,36 +71,76 @@
           {% csrf_token %}
           <div class="form-row task-input">
             <div class="col">
-              <div class="input-group newtask-input">
+              <div class="input-group newtask-input" id="task-group-container">
                   <div class="input-group-prepend">
-                    <button style="outline: none;" class="input-group-text" id="newTaskButton">+</button>
+                    <button class="input-group-text button-star" id="newTaskButton"><img class="icon-star" src="{% static 'my_time/img/' %}add.png"></button>
                   </div>
-                  <input type="text" class="form-control" id="newTaskInput" placeholder="Добавить задачу...">
+                  <input style="margin-left: -0.5rem" type="text" class="form-control new-task-btn" id="newTaskInput" placeholder="Добавить задачу..." >
+                  <div class="input-group-append">
+                     <button class="input-group-text button-star"><img class="icon-star" src="{% static 'my_time/img/' %}calendar.png"></button>
+                  </div>
+                  <div class="input-group-append" id="starredcheckbox-container"  style="margin-left: -0.5rem">
+                      <button class="input-group-text button-star" id="taskImp"><img class="icon-star" src="{% static 'my_time/img/' %}notstarred.png"><input id="starredcheck" style="visibility: hidden" src="{% static 'my_time/img/' %}notstarred.png" type="checkbox"></button>
+                  </div>
               </div>
             </div>
           </div>
         </form>
 
         <!--tasks-->
-        <div>
           <ul class="list-group tasks-list" id="listRoot">
             {% for task in smart_lists.inbox.tasks reversed %}
-              <li  class="list-group-item item-alignment" id="{{ task.id }}">
-                  <div class="custom-control custom-checkbox">
+              <li  class="list-group-item item-alignment" id="{{ task.id }}"> {% csrf_token %}
+                  <div class="custom-control custom-checkbox float-left task-inner-alignment">
                     <input type="checkbox" class="custom-control-input" id="customCheck{{ task.id }}">
-                    <label class="custom-control-label checklabel" for="customCheck{{ task.id }}" onclick="archiveTask(this)">{{ task.title }}</label>
+                    <label class="custom-control-label task-title-alignment" for="customCheck{{ task.id }}" onclick="archiveTask(this)">{{ task.title }}</label>
                   </div>
+                  <div class="float-right checklabel">
+                      <button class="button-star">
+                          {% if task.starred %}
+                          <img class="icon-star" src="{% static 'my_time/img/' %}starred.png">
+                          {% else %}
+                          <img class="icon-star" src="{% static 'my_time/img/' %}notstarred.png">
+                          {% endif %}
+                          <input style="visibility: hidden" src="{% static 'my_time/img/' %}notstarred.png" type="checkbox">
+                      </button>
+                  </div>
+              </li>
             {% endfor %}
           </ul>
-        </div>
 
       </div>
     </main>
 
+    <!-- add new list modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="newListModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Создать список</h5>
+            </div>
+            <div class="modal-body">
+              <form>
+                {% csrf_token %}
+                <div class="form-group">
+                  <input type="text" class="form-control" id="new-list-title" placeholder="Название списка...">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Отмена</button>
+              <button type="button" class="btn btn-primary" id="saveNewList" disabled>Сохранить</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <script type="text/javascript" src="{% static 'js/csrftoken.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/starredCheckboxSwap.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/addNewTaskAjax.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/searchAjax.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/changeActiveList.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/archiveTask.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/newListModal.js' %}"></script>
 {% endblock tasks %}
 

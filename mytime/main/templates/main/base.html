@@ -18,7 +18,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
 
-      <div class="dropdown show test" style="margin-left: -0.3rem" id="accountSettings">
+      <div class="dropdown show" style="margin-left: -0.3rem" id="accountSettings">
         <img class="user-avatar" src="{{user.userprofile.avatar.url}}">
 
         <a class="dropdown-toggle settings-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -52,12 +52,14 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto sidenav" id="lists">
-
+      <div class="collapse navbar-collapse" id="navbarCollapse" >
+        <ul class="navbar-nav mr-auto sidenav" id="lists" style="overflow-x:scroll;">
         {% block lists %}{% endblock lists%}
-
         </ul>
+
+        <div class="test">
+        <button type="button" class="btn btn-light add-list-btn" data-toggle="modal" data-target="#exampleModal"> + Добавить список...</button>
+        </div>
       </div>
 
       {% block search-line%}{% endblock search-line %}

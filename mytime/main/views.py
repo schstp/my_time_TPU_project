@@ -53,8 +53,7 @@ class AddNewTaskView(View):
         list_id = self.request.POST.get('active_list_id')
 
         task = make_task(self.request)
-        if task.title.strip():
-            task.save()
+        task.save()
 
         response = {
             'id': task.id,
@@ -64,6 +63,23 @@ class AddNewTaskView(View):
             'planned_on': task.planned_on,
         }
         response.update(get_filled_lists(self.request.user))
+
+        return JsonResponse(response, safe=False)
+
+
+class AddNewListView(View):
+    template_name = 'main/index.html'
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        list_title = self.request.POST.get('list_title')
+        new_personal_list = List.objects.create(user=user, title=list_title.strip())
+        new_personal_list.save()
+
+        response = {
+            'id': new_personal_list.id,
+            'title': new_personal_list.title,
+        }
 
         return JsonResponse(response, safe=False)
 
@@ -83,7 +99,7 @@ class ActiveListChangeView(View):
         else:
             active_list = List.objects.get(pk=int(list_id))
             response = {
-                'tasks': list(active_list.task_set.values()),
+                'tasks': list(active_list.task_set.filter(archived=False).values()),
                 'list_title': List.objects.get(pk=int(list_id)).title,
             }
 
@@ -94,19 +110,11 @@ class ArchiveTaskView(View):
     template_name = 'main/index.html'
 
     def post(self, request, *args, **kwargs):
-        list_id = self.request.POST.get('active_list_id')
+        task_to_archive_id = self.request.POST.get('task_to_archive_id')
+        task = Task.objects.get(pk=int(task_to_archive_id))
+        task.archived = True
+        task.save()
 
-        task = make_task(self.request)
-        if task.title.strip():
-            task.save()
-
-        response = {
-            'id': task.id,
-            'list_id': list_id,
-            'title': task.title,
-            'starred': task.starred,
-            'planned_on': task.planned_on,
-        }
-        response.update(get_filled_lists(self.request.user))
+        response = get_filled_lists(self.request.user)
 
         return JsonResponse(response, safe=False)

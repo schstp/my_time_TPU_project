@@ -15,7 +15,7 @@ def get_filled_lists(user):
         context_list_item['count_tasks'] = list_item.count_tasks()
         context_list_item['count_overdue_tasks'] = list_item.count_overdue_tasks()
 
-    all_tasks = Task.objects.filter(user=user)
+    all_tasks = Task.objects.filter(user=user, archived=False)
     now = datetime.now().date()
     overdue_tasks = all_tasks.filter(planned_on__date__lt=now)
     count_overdue_tasks = overdue_tasks.count()
@@ -79,7 +79,7 @@ def get_filled_querysets(user):
     context = {}
     context['personal_lists'] = List.objects.filter(user=user)
 
-    all_tasks = Task.objects.filter(user=user)
+    all_tasks = Task.objects.filter(user=user, archived=False)
     now = datetime.now().date()
     overdue_tasks = all_tasks.filter(planned_on__date__lt=now)
     count_overdue_tasks = overdue_tasks.count()
@@ -143,7 +143,7 @@ def make_task(request):
     user = request.user
     list_id = request.POST.get('active_list_id')
     title = request.POST.get('title')
-    starred = bool(request.POST.get('starred'))
+    starred = True if request.POST.get('starred') == 'true' else False
     planned_on = request.POST.get('planned_on')
 
     if list_id not in SMART_LISTS:

@@ -10,7 +10,8 @@ urlpatterns = [
     path('add_task', views.AddNewTaskView.as_view(), name='add_task'),
     path('search_query', views.SearchResultsView.as_view(), name='search_query'),
     path('active_list', views.ActiveListChangeView.as_view(), name='active_list'),
-    path('achive_task', views.ArchiveTaskView.as_view(), name='archive_task')
+    path('archive_task', views.ArchiveTaskView.as_view(), name='archive_task'),
+    path('add_list', views.AddNewListView.as_view(), name='add_list'),
 ]
 
 if settings.DEBUG:

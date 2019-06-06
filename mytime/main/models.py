@@ -19,10 +19,10 @@ class List(TimeStampedModel):
         ordering = ['created']
 
     def count_tasks(self):
-        return self.task_set.count()
+        return self.task_set.filter(archived=False).count()
 
     def count_overdue_tasks(self):
-        return self.task_set.filter(planned_on__date__lt=datetime.now().date()).count()
+        return self.task_set.filter(planned_on__date__lt=datetime.now().date(), archived=False).count()
 
     def __str__(self):
         return self.title

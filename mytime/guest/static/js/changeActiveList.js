@@ -20,6 +20,17 @@ function changeList(self) {
                 listRoot.innerHTML = '';
                 if (activeListId === 'week') taskInsertionForm.style.display = 'None';
                 else taskInsertionForm.style.display = '';
+                if (activeListId === 'starred') {
+                    markTask.parentNode.style.display = 'None';
+                    document.getElementById('task-group-container').removeChild( document.getElementById('starredcheckbox-container'))
+                }
+                else if (!document.getElementById('starredcheckbox-container')) {
+                    let div = document.createElement('div');
+                    div.className = 'input-group-append';
+                    div.id = 'starredcheckbox-container';
+                    div.innerHTML = markTask.outerHTML;
+                    document.getElementById('task-group-container').appendChild(div);
+                }
 
                 if (activeListId === 'inbox') newTaskInput.placeholder = 'Добавить задачу...';
                 if (activeListId === 'today') newTaskInput.placeholder = 'Добавить сегодняшнюю задачу в папку "Входящие"...';
@@ -40,6 +51,7 @@ function changeList(self) {
                     let label = document.createElement('label');
                     label.className = 'custom-control-label';
                     label.setAttribute('for', input.id);
+                    label.setAttribute('onclick', 'archiveTask(this)');
                     label.innerHTML = data['tasks'][index]['title'];
 
                     let div = document.createElement('div');
@@ -48,6 +60,7 @@ function changeList(self) {
                     div.appendChild(label);
 
                     let newTask = document.createElement('li');
+                    newTask.id = data['tasks'][index]['id'];
                     newTask.className = 'list-group-item item-alignment fadeInDown';
                     newTask.appendChild(div);
 

@@ -1,0 +1,37 @@
+
+
+
+
+
+<div>
+  <ul class="list-group tasks-list" id="listRoot">
+    {% for task in smart_lists.inbox.tasks reversed %}
+      <li  class="list-group-item item-alignment" id="{{ task.id }}"> {% csrf_token %}
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="customCheck{{ task.id }}">
+            <label class="custom-control-label checklabel" for="customCheck{{ task.id }}" onclick="archiveTask(this)">{{ task.title }}</label>
+          </div>
+    {% endfor %}
+  </ul>
+</div>
+
+
+        <div>
+          <ul class="list-group tasks-list" id="listRoot">
+            {% for task in smart_lists.inbox.tasks reversed %}
+          <li class="list-group-item item-alignment" id="{{ task.id }}"> {% csrf_token %}
+            <div class="col">
+              <div class="input-group ">
+                  <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="customCheck{{ task.id }}">
+                  <label class="custom-control-label" for="customCheck{{ task.id }}" onclick="archiveTask(this)">{{ task.title }}</label>
+                  </div>
+                  <div class="input-group-append">
+                      <button class="input-group-text button-star"><img class="icon-star" src="{% static 'my_time/img/' %}notstarred.png"><input style="visibility: hidden" src="{% static 'my_time/img/' %}notstarred.png" type="checkbox"></button>
+                  </div>
+              </div>
+            </div>
+          </li>
+            {% endfor %}
+          </ul>
+        </div>

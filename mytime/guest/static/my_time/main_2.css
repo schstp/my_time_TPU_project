@@ -37,11 +37,17 @@ body {
     top: 0;
     left: 0;
     width: 280px;
-    height: calc(100vh);
+    height: calc(91.5vh);
     margin-top: 3.19rem;
     background: #ffffff;
     box-sizing: border-box;
+}
 
+.test {
+    position: absolute;
+    top: 750px;
+    left: 0;
+    margin-top: 3.19rem;
 }
 
 .navbar-expand-lg .sidenav {
@@ -77,6 +83,26 @@ body {
     margin-right: 0.4rem;
 }
 
+.icon-star {
+    max-width:20px;
+    max-height:auto;
+}
+
+.button-star {
+    background-color: white;
+    border: none;
+    outline: none;
+}
+
+.button-star:focus {
+    outline: none;
+}
+
+.new-task-btn {
+    height: 40px;
+    border: none
+}
+
 .newtask-input {
     margin-left: 0.3rem;
 }
@@ -92,7 +118,7 @@ body {
     height: 20px;
     background: url("/static/my_time/img/search-icon.png") no-repeat 3px 1px;
     background-size: auto 90%;
-    background-color: #ffffff;
+    background-color: white;
 }
 
 .line {
@@ -119,6 +145,21 @@ body {
 .item-alignment {
     margin-left: 0.7rem;
     margin-top: 0.2rem;
+    height: 42px;
+}
+
+.checklabel {
+    margin-right: -1.2rem;
+    margin-top: -0.45rem;
+}
+
+.task-inner-alignment {
+    margin-top: -0.25rem;
+    margin-left: -0.5rem;
+}
+
+.task-title-alignment {
+    margin-left: 0.5rem;
 }
 
 @-webkit-keyframes fadeInDown {
@@ -183,8 +224,15 @@ body {
 }
 
 
-.checklabel {
-    outline: none;
+.add-list-btn {
+    color: #43c3ff;
+    width: 280px;
+}
+.add-list-btn:hover {
+    color: #43c3ff;
+}
+.add-list-btn:active {
+    color: #43c3ff;
 }
 
 
