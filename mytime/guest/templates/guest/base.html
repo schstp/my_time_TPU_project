@@ -33,7 +33,7 @@
             <div class="navbar-nav">
               {% if user.is_authenticated %}
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Выход</a>
-                <a class="nav-item nav-link" href="{% url 'initial' %}"> Перейти к планированию</a>
+                <a class="nav-item nav-link" href="{% url 'index' %}"> Перейти к планированию</a>
               {% else %}
                 <a class="nav-item nav-link" href="{% url 'login' %}">Вход</a>
                 <a class="nav-item nav-link" href="{% url 'signup' %}">Регистрация</a>

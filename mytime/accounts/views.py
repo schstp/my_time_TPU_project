@@ -74,7 +74,7 @@ def settings(request):
                 logout(request)
             user_form.save()
             profile_form.save()
-            return redirect('initial')
+            return redirect('index')
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(

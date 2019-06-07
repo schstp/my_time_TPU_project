@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 
 SMART_LISTS = {'inbox', 'today', 'tomorrow', 'week', 'starred', 'all'}
-
+TIME_FORMAT = '%a %b %d %Y %H:%M:%S'
 
 def get_filled_lists(user):
     context = {}
@@ -144,19 +144,20 @@ def make_task(request):
     list_id = request.POST.get('active_list_id')
     title = request.POST.get('title')
     starred = True if request.POST.get('starred') == 'true' else False
-    planned_on = request.POST.get('planned_on')
+    date = request.POST.get('planned_on')[:24] if request.POST.get('planned_on') else None
+    planned_on = datetime.strptime(date, TIME_FORMAT) if date else None
 
     if list_id not in SMART_LISTS:
         task_list = List.objects.get(pk=int(list_id))
         task = Task.objects.create(user=user, list=task_list, title=title,
-                                   starred=starred, planned_on=datetime.now()) # временно datetime.now()
+                                   starred=starred, planned_on=planned_on) # временно datetime.now()
     else:
         options = {
             'inbox': {
                 'user': user,
                 'title': title,
                 'starred': starred,
-                'planned_on':datetime.now() # временно datetime.now()
+                'planned_on':planned_on
             },
             'today': {
                 'user': user,
@@ -174,13 +175,13 @@ def make_task(request):
                 'user': user,
                 'title': title,
                 'starred': True,
-                'planned_on': datetime.now() # временно datetime.now()
+                'planned_on': planned_on
             },
             'all': {
                 'user': user,
                 'title': title,
                 'starred': starred,
-                'planned_on': datetime.now()  # временно datetime.now()
+                'planned_on': planned_on  # временно datetime.now()
             }
         }
 

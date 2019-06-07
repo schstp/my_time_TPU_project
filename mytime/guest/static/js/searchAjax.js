@@ -62,10 +62,15 @@ searchBarElement.keyup( function (e) {
                     button.className = 'button-star';
                     button.appendChild(img);
                     button.appendChild(checkInput);
+                    let date = document.createElement('label');
+                    if (data[index]['planned_on'])
+                    date.innerHTML = data[index]['planned_on'].slice(0, 21);
+                    else date.innerHTML = '';
 
                     let div2 = document.createElement('div');
                     div2.className = 'float-right checklabel';
                     div2.style.marginRight = '-0.9rem';
+                    div2.appendChild(date);
                     div2.appendChild(button);
 
                     let newTask = document.createElement('li');

@@ -4,7 +4,6 @@ from django.conf.urls.static import static
 from . import views
 
 
-
 urlpatterns = [
     path('', views.TaskListView.as_view(), name='index'),
     path('add_task', views.AddNewTaskView.as_view(), name='add_task'),

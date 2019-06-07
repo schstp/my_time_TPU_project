@@ -1,11 +1,32 @@
 from django.views.generic import ListView
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
 
 from .models import Task, List
-from .core import get_filled_lists, get_filled_querysets, make_task, SMART_LISTS
-from .forms import DateForm
+from .core import get_filled_lists, get_filled_querysets, make_task, SMART_LISTS, TIME_FORMAT
+
+
+import json
+from datetime import datetime
+
+from django.http import HttpResponse
+
+class DateTimeEncoder(json.JSONEncoder):
+    # default JSONEncoder cannot serialize datetime.datetime objects
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            encoded_object = obj.strftime(TIME_FORMAT)
+        else:
+            encoded_object = super(self, obj)
+        return encoded_object
+
+class JsonResponse(HttpResponse):
+    def __init__(self, content, mimetype='application/json', status=None, content_type='application/json'):
+        json_text = json.dumps(content, cls=DateTimeEncoder)
+        super(JsonResponse, self).__init__(
+            content=json_text,
+            status=status,
+            content_type=content_type)
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -15,7 +36,6 @@ class TaskListView(LoginRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TaskListView, self).get_context_data()
         context.update(get_filled_lists(self.request.user))
-        context['form'] = DateForm()
         return context
 
     context_object_name = 'tasks'
@@ -36,16 +56,24 @@ class SearchResultsView(ListView):
             else:
                 all_tasks = List.objects.get(pk=int(list_id)).task_set.filter(title__icontains=q)
 
-            response = [{'id': task.id, 'title': task.title, 'starred': task.starred} for task in all_tasks]
+            response = [{'id': task.id,
+                         'title': task.title,
+                         'starred': task.starred,
+                         'planned_on': task.planned_on
+                         } for task in all_tasks]
         else:
             if list_id in SMART_LISTS:
                 all_tasks = all_tasks['smart_lists'][list_id]['tasks']
             else:
                 all_tasks = List.objects.get(pk=int(list_id)).task_set.all()
 
-            response = [{'id': task.id, 'title': task.title, 'starred': task.starred} for task in all_tasks]
+            response = [{'id': task.id,
+                         'title': task.title,
+                         'starred': task.starred,
+                         'planned_on': task.planned_on
+                         } for task in all_tasks]
 
-        return JsonResponse(response, safe=False)
+        return JsonResponse(response)
 
 
 class AddNewTaskView(View):
@@ -64,9 +92,10 @@ class AddNewTaskView(View):
             'starred': task.starred,
             'planned_on': task.planned_on,
         }
+
         response.update(get_filled_lists(self.request.user))
 
-        return JsonResponse(response, safe=False)
+        return JsonResponse(response)
 
 
 class AddNewListView(View):
@@ -83,7 +112,7 @@ class AddNewListView(View):
             'title': new_personal_list.title,
         }
 
-        return JsonResponse(response, safe=False)
+        return JsonResponse(response)
 
 
 class ActiveListChangeView(View):
@@ -105,7 +134,7 @@ class ActiveListChangeView(View):
                 'list_title': List.objects.get(pk=int(list_id)).title,
             }
 
-        return JsonResponse(response, safe=False)
+        return JsonResponse(response)
 
 
 class ArchiveTaskView(View):
@@ -119,7 +148,7 @@ class ArchiveTaskView(View):
 
         response = get_filled_lists(self.request.user)
 
-        return JsonResponse(response, safe=False)
+        return JsonResponse(response)
 
 
 class SwapStarredView(View):
@@ -136,4 +165,4 @@ class SwapStarredView(View):
 
         response = get_filled_lists(user)['smart_lists']['starred']
 
-        return JsonResponse(response, safe=False)
+        return JsonResponse(response)

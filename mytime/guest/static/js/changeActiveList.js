@@ -1,3 +1,4 @@
+let firstInboxEnter = true;
 function changeList(self) {
     let activeListId = self.id;
     let previousActiveList = document.getElementById('lists').querySelector('.active');
@@ -14,22 +15,24 @@ function changeList(self) {
         dataType: 'json',
         data: data,
         success:function(data){
-            if (!self.isEqualNode(previousActiveList)) {
-                self.className += ' active list-group-item-primary';
-                previousActiveList.className = "nav-link";
+            if (!self.isEqualNode(previousActiveList) || firstInboxEnter) {
+                if (!firstInboxEnter) {
+                    previousActiveList.className = "nav-link";
+                    self.className += ' active list-group-item-primary';
+                }
+                firstInboxEnter = false;
                 listRoot.innerHTML = '';
                 if (activeListId === 'week') taskInsertionForm.style.display = 'None';
                 else taskInsertionForm.style.display = '';
                 if (activeListId === 'starred') {
-                    markTask.parentNode.style.display = 'None';
-                    document.getElementById('task-group-container').removeChild( document.getElementById('starredcheckbox-container'))
+                    document.getElementById('task-input-container').removeChild( document.getElementById('starredcheckbox-container'))
                 }
                 else if (!document.getElementById('starredcheckbox-container')) {
                     let div = document.createElement('div');
-                    div.className = 'input-group-append';
+                    div.className = 'input-group-append starred-button-container';
                     div.id = 'starredcheckbox-container';
                     div.innerHTML = markTask.outerHTML;
-                    document.getElementById('task-group-container').appendChild(div);
+                    document.getElementById('task-input-container').appendChild(div);
                 }
 
                 if (activeListId === 'inbox') newTaskInput.placeholder = 'Добавить задачу...';
@@ -74,10 +77,15 @@ function changeList(self) {
                     button.className = 'button-star';
                     button.appendChild(img);
                     button.appendChild(checkInput);
+                    let date = document.createElement('label');
+                    if (data['tasks'][index]['planned_on'])
+                    date.innerHTML = data['tasks'][index]['planned_on'].slice(0, 21);
+                    else date.innerHTML = '';
 
                     let div2 = document.createElement('div');
                     div2.className = 'float-right checklabel';
                     div2.style.marginRight = '-0.9rem';
+                    div2.appendChild(date);
                     div2.appendChild(button);
 
                     let newTask = document.createElement('li');
