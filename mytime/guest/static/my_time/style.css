@@ -1,6 +1,7 @@
 body{
 background-image: url("img/back_image.png");
 background-size: 30px 30px;
+align-items:center;
 }
 
 .login:hover{
@@ -205,4 +206,69 @@ h1:before {
 h1:after {
     left: 0.5em;
     margin-right: -50%;
+}
+
+.row {
+  display: block;
+}
+.row:before,
+.row:after {
+  display: table;
+  content: "";
+}
+.row:after {
+  clear: both;
+}
+
+@media only screen and (min-width: 710px) and (max-width: 929px), only screen and (min-width: 930px) {
+  .split {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .split + .split {
+    margin-left: 28px;
+  }
+}
+
+.instruction {
+width: 300px;
+height: auto;
+margin-top: 10px;
+margin-bottom:10px;
+font-size: 14px;
+}
+
+.password_change_form{
+    padding: 20px 50px 20px 50px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    font-style: normal;
+    margin: 7% 25% 7% 25%;
+    width: 700px;
+}
+
+h2{
+border-bottom: 1px solid #bdbdbd;
+}
+
+.space
+{
+margin-top: 10px;
+}
+
+.left{
+padding-right:20px;
+text-align:left;
+width:50%;
+}
+
+.right{
+text-align:left;
+width:50%;
+}
+
+ul {
+    padding: 0;
+    margin-left: 20px;
 }

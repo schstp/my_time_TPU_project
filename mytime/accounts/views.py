@@ -61,7 +61,7 @@ def activate(request, uidb64, token):
 
 
 @login_required
-def edit(request):
+def settings(request):
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user, data=request.POST)
         profile_form = ProfileEditForm(instance=request.user.userprofile, data=request.POST, files=request.FILES)
@@ -78,6 +78,6 @@ def edit(request):
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(
             instance=request.user.userprofile)
-        return render(request, 'registration/edit.html',
+        return render(request, 'registration/settings.html',
                       {'user_form': user_form,
                        'profile_form': profile_form})

@@ -1,0 +1,162 @@
+{% load static %}
+<!docktype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'my_time/settings_style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    {% if title %}
+    <title> myTime - {{ title }}</title>
+    {% else %}
+    <title> myTime </title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{% url 'guest-home' %}">myTime</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link" href="{% url 'guest-blog' %}">Блог</a>
+                <a class="nav-item nav-link" href="{% url 'guest-support' %}">Поддержка</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if user.is_authenticated %}
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Выход</a>
+                <a class="nav-item nav-link" href="{% url 'initial' %}"> Перейти к планированию</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}">Вход</a>
+                <a class="nav-item nav-link" href="{% url 'signup' %}">Регистрация</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+{% block content %}
+<div class="tab">
+  <button class="tablinks" onclick="openSettings(event, 'account_inf')" id="defaultOpen">Параметры аккаунта</button>
+  <button class="tablinks" onclick="openSettings(event, 'backgroung_img')">Фоновое изображение</button>
+  <button class="tablinks" onclick="openSettings(event, 'authors')">Об авторах</button>
+</div>
+    <div id="account_inf" class="tabcontent">
+        <h2>Параметры аккаунта</h2>
+        <form action="." method="post" enctype="multipart/form-data" id="form">
+        <div class="content">
+            <table width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="left" >
+                        <p style = "text-align:left; font-size:18px;" >
+                        <label  for="id_first_name" >Имя:</label>
+                        <input type="text" name="first_name" value="{{ user.first_name }}" maxlength="30" id="id_first_name">
+                        </p>
+                    </td>
+                    <td class="right">
+                        <p style = "text-align:left; font-size:18px;">
+                        <label for="id_last_name">Фамилия:</label>
+                         <input type="text" name="last_name" value="{{ user.last_name }}" maxlength="150" id="id_last_name">
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <p>
+                <label for="id_email">Адрес электронной почты:</label>
+                <input type="email" name="email" value="{{ user.email }}" maxlength="254" id="id_email">
+            </p>
+            <table width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="left">
+                        <div class="avatar">
+                            <img class="user-avatar" src="{{user.userprofile.avatar.url}}" id="img-preview">
+                        </div>
+                    </td>
+                    <td valign="right">
+                        <p> Изменить:</p>
+                        <label class="uploadButton">Загрузить файл</label>
+                        <input style="opacity: 0; z-index: -1; margin-top:-52px; height:45px; width: 275px;" type="file" name="avatar" id="id_avatar" accept="image/*">
+                        <div>
+                            <input type="reset" value="Отменить">
+                        </div>
+                </tr>
+            </table>
+            {% csrf_token %}
+            <div class="content">
+                 <table width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="left">
+                            <p>
+                                <a class="ChangePasswordButton" href = "{%url 'password_change' %}">
+                                    <label>Изменить пароль</label>
+                                </a>
+                            </p>
+                        </td>
+                        <td class="right">
+                        <p><input type="submit" value="Сохранить изменения" class="agree-btn"></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        </form>
+    </div>
+
+<div id="backgroung_img" class="tabcontent">
+
+</div>
+
+<div id="authors" class="tabcontent">
+  <h3>Авторы</h3>
+  <p>Студенты ТПУ: Станислав Щедрин и Лазуков Михаил</p>
+</div>
+
+<script>
+function openSettings(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+document.getElementById("defaultOpen").click();
+</script>
+<script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>
+    $('#id_avatar').change(function () {
+        var input = $(this)[0];
+        if (input.files && input.files[0]) {
+            if (input.files[0].type.match('image.*')) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#img-preview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                console.log('ошибка, не изображение');
+            }
+        } else {
+            console.log('хьюстон у нас проблема');
+        }
+    });
+
+    $('#form').bind('reset', function () {
+        $('#img-preview').attr('src', '{{user.userprofile.avatar.url}}');
+    });
+</script>
+
+{% endblock %}
