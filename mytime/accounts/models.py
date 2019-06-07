@@ -15,3 +15,6 @@ class UserProfile (models.Model):
         return self.user.username
 
     post_save.connect(create_profile, sender=User)
+
+
+

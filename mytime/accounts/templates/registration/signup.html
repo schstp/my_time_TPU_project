@@ -19,10 +19,18 @@
         <div>
             <div class="login-input">
                 <p>
-                <input type="text" name="username" maxlength="150" placeholder="Придумайте логин" autofocus required id="id_username">
-                <input type="email" name="email" placeholder="Введите Ваш email" maxlength="254" required id="id_email">
-                <input type="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}"  name="password1" placeholder="Придумайте пароль" autocomplete="new-password" required id="id_password1">
-                <input type="password" name="password2" placeholder="Повторите пароль" autocomplete="new-password" required id="id_password2">
+                    <div class="field">
+                                <input type="text" name="username" maxlength="150" placeholder="Придумайте логин" autofocus required id="id_username">
+                    </div>
+                    <div class="field">
+                         <input type="email" name="email" placeholder="Введите Ваш email" maxlength="254" required id="id_email">
+                    </div>
+                    <div class="field">
+                         <input type="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}"  name="password1" placeholder="Придумайте пароль" autocomplete="new-password" required id="id_password1">
+                    </div>
+                    <div class="field">
+                          <input type="password" name="password2" placeholder="Повторите пароль" autocomplete="new-password" required id="id_password2">
+                    </div>
                 </p>
                 <div >
                     {% if form.errors.username %}
@@ -39,7 +47,7 @@
             </div>
             </div>
             <div>Уже есть аккаунт?</div>
-            <a class="create-account" href="{% url 'registration-login' %}">Войти</a>
+            <a class="create-account" href="{% url 'login' %}">Войти</a>
         </div>
     </div>
 </form>

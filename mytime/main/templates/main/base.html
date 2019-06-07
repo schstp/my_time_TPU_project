@@ -29,23 +29,25 @@
 
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
 
+
       <div class="dropdown show" style="margin-left: -0.3rem" id="accountSettings">
         <img class="user-avatar" src="{{user.userprofile.avatar.url}}">
 
-        <a class="dropdown-toggle settings-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ user.get_username }}
-        </a>
 
-        <!-- settings -->
-        <div class="dropdown-menu settings-menu" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" href="#">Параметры учетной записи</a>
-          <a class="dropdown-item" href="#">Изменить фоновое изображение</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{% url 'guest-home' %}">Сайт myTime</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Выход</a>
-        </div>
+      <a class="dropdown-toggle settings-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {% if user.first_name == "" or user.first_name == null %}{{ user.get_username}}
+        {% else %} {{user.first_name}}
+        {% endif %}
+      </a>
 
+      <!-- settings -->
+      <div class="dropdown-menu settings-menu" aria-labelledby="dropdownMenuLink">
+        <a class="dropdown-item" href="{% url 'settings' %}">Параметры учетной записи</a>
+        <a class="dropdown-item" href="#">Изменить фоновое изображение</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="{% url 'guest-home' %}">Сайт myTime</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="{% url 'logout' %}">Выход</a>
       </div>
 
       <b class="line" id="headstatement">Входящие</b>
