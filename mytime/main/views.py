@@ -1,15 +1,15 @@
+import json
+from datetime import datetime
+
+
 from django.views.generic import ListView
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 
 from .models import Task, List
 from .core import get_filled_lists, get_filled_querysets, make_task, SMART_LISTS, TIME_FORMAT
 
-
-import json
-from datetime import datetime
-
-from django.http import HttpResponse
 
 class DateTimeEncoder(json.JSONEncoder):
     # default JSONEncoder cannot serialize datetime.datetime objects
@@ -19,6 +19,7 @@ class DateTimeEncoder(json.JSONEncoder):
         else:
             encoded_object = super(self, obj)
         return encoded_object
+
 
 class JsonResponse(HttpResponse):
     def __init__(self, content, mimetype='application/json', status=None, content_type='application/json'):
