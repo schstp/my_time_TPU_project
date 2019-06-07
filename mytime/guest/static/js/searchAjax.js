@@ -55,6 +55,8 @@ searchBarElement.keyup( function (e) {
                     let checkInput = document.createElement('input');
                     checkInput.style.visibility = 'hidden';
                     checkInput.type = 'checkbox';
+                    if (data[index]['starred'])  checkInput.checked = true;
+                    else  checkInput.checked = false;
 
                     let button = document.createElement('button');
                     button.className = 'button-star';

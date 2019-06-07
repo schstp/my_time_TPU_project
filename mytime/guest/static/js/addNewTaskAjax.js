@@ -9,7 +9,7 @@ newTaskButtonElement.on('click', function (e) {
 newTaskInputElement.on('keydown', function(e) {
     if (e.keyCode === 13 && $.trim(newTaskInputElement.val()) !== '') {
         e.preventDefault();
-
+        //console.log($('#task-group-container').datetimepicker('date'));
         let title = newTaskInputElement.val();
 
         let starred = starredChechbox.is(':checked');
@@ -56,6 +56,8 @@ newTaskInputElement.on('keydown', function(e) {
                 let checkInput = document.createElement('input');
                 checkInput.style.visibility = 'hidden';
                 checkInput.type = 'checkbox';
+                if (data['starred'])  checkInput.checked = true;
+                else  checkInput.checked = false;
 
                 let button = document.createElement('button');
                 button.className = 'button-star';

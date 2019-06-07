@@ -71,14 +71,16 @@
           {% csrf_token %}
           <div class="form-row task-input">
             <div class="col">
-              <div class="input-group newtask-input" id="task-group-container">
+              <div class="input-group newtask-input"  >
                   <div class="input-group-prepend">
                     <button class="input-group-text button-star" id="newTaskButton"><img class="icon-star" src="{% static 'my_time/img/' %}add.png"></button>
                   </div>
                   <input style="margin-left: -0.5rem" type="text" class="form-control new-task-btn" id="newTaskInput" placeholder="Добавить задачу..." >
-                  <div class="input-group-append">
-                     <button class="input-group-text button-star"><img class="icon-star" src="{% static 'my_time/img/' %}calendar.png"></button>
+
+                  <div class="input-group-append"  data-target="#task-group-container" data-toggle="datetimepicker">
+                     <button id="task-group-container" class="input-group-text button-star"><img class="icon-star" src="{% static 'my_time/img/' %}calendar.png"></button>
                   </div>
+                  {{ form.date }}
                   <div class="input-group-append" id="starredcheckbox-container"  style="margin-left: -0.5rem">
                       <button class="input-group-text button-star" id="taskImp"><img class="icon-star" src="{% static 'my_time/img/' %}notstarred.png"><input id="starredcheck" style="visibility: hidden" src="{% static 'my_time/img/' %}notstarred.png" type="checkbox"></button>
                   </div>
@@ -88,7 +90,7 @@
         </form>
 
         <!--tasks-->
-          <ul class="list-group tasks-list" id="listRoot">
+          <ul class="list-group tasks-list unselectable" id="listRoot">
             {% for task in smart_lists.inbox.tasks reversed %}
               <li  class="list-group-item item-alignment" id="{{ task.id }}"> {% csrf_token %}
                   <div class="custom-control custom-checkbox float-left task-inner-alignment">
@@ -99,10 +101,11 @@
                       <button class="button-star">
                           {% if task.starred %}
                           <img class="icon-star" src="{% static 'my_time/img/' %}starred.png">
+                          <input style="visibility: hidden" type="checkbox" checked>
                           {% else %}
                           <img class="icon-star" src="{% static 'my_time/img/' %}notstarred.png">
-                          {% endif %}
                           <input style="visibility: hidden" type="checkbox">
+                          {% endif %}
                       </button>
                   </div>
               </li>
@@ -135,12 +138,15 @@
         </div>
       </div>
 
+    <script type="text/javascript" src="{% static 'js/ru.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/datetimePickerCall.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/csrftoken.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/starredCheckboxSwap.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/addNewTaskAjax.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/searchAjax.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/changeActiveList.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/archiveTask.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/clickOnStar.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/newListModal.js' %}"></script>
 {% endblock tasks %}
 

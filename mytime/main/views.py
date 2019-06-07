@@ -5,6 +5,7 @@ from django.http import JsonResponse
 
 from .models import Task, List
 from .core import get_filled_lists, get_filled_querysets, make_task, SMART_LISTS
+from .forms import DateForm
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -14,6 +15,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TaskListView, self).get_context_data()
         context.update(get_filled_lists(self.request.user))
+        context['form'] = DateForm()
         return context
 
     context_object_name = 'tasks'
@@ -116,5 +118,22 @@ class ArchiveTaskView(View):
         task.save()
 
         response = get_filled_lists(self.request.user)
+
+        return JsonResponse(response, safe=False)
+
+
+class SwapStarredView(View):
+    template_name = 'main/index.html'
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        task_id = self.request.POST.get('task_id')
+        starred = True if self.request.POST.get('starred') == 'true' else False
+
+        task = Task.objects.get(pk=int(task_id))
+        task.starred = starred
+        task.save()
+
+        response = get_filled_lists(user)['smart_lists']['starred']
 
         return JsonResponse(response, safe=False)

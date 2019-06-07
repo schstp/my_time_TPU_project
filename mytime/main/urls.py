@@ -12,6 +12,7 @@ urlpatterns = [
     path('active_list', views.ActiveListChangeView.as_view(), name='active_list'),
     path('archive_task', views.ArchiveTaskView.as_view(), name='archive_task'),
     path('add_list', views.AddNewListView.as_view(), name='add_list'),
+    path('swap_starred', views.SwapStarredView.as_view(), name='swap_starred'),
 ]
 
 if settings.DEBUG:
