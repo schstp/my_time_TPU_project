@@ -93,7 +93,7 @@
               <li  class="list-group-item item-alignment" id="{{ task.id }}"> {% csrf_token %}
                   <div class="custom-control custom-checkbox float-left task-inner-alignment">
                     <input type="checkbox" class="custom-control-input" id="customCheck{{ task.id }}">
-                    <label class="custom-control-label task-title-alignment" for="customCheck{{ task.id }}" onclick="archiveTask(this)">{{ task.title }}</label>
+                    <label class="custom-control-label task-title-alignment" for="customCheck{{ task.id }}" onclick="archiveTask(this)">{{task.title}}</label>
                   </div>
                   <div class="float-right checklabel">
                       <button class="button-star">
@@ -102,7 +102,7 @@
                           {% else %}
                           <img class="icon-star" src="{% static 'my_time/img/' %}notstarred.png">
                           {% endif %}
-                          <input style="visibility: hidden" src="{% static 'my_time/img/' %}notstarred.png" type="checkbox">
+                          <input style="visibility: hidden" type="checkbox">
                       </button>
                   </div>
               </li>

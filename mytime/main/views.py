@@ -34,14 +34,14 @@ class SearchResultsView(ListView):
             else:
                 all_tasks = List.objects.get(pk=int(list_id)).task_set.filter(title__icontains=q)
 
-            response = [{'id': task.id, 'title': task.title} for task in all_tasks]
+            response = [{'id': task.id, 'title': task.title, 'starred': task.starred} for task in all_tasks]
         else:
             if list_id in SMART_LISTS:
                 all_tasks = all_tasks['smart_lists'][list_id]['tasks']
             else:
                 all_tasks = List.objects.get(pk=int(list_id)).task_set.all()
 
-            response = [{'id': task.id, 'title': task.title} for task in all_tasks]
+            response = [{'id': task.id, 'title': task.title, 'starred': task.starred} for task in all_tasks]
 
         return JsonResponse(response, safe=False)
 
